@@ -1,5 +1,6 @@
 package com.ute.day11.models;
 
+import com.ute.day11.beans.Category;
 import com.ute.day11.beans.Product;
 import com.ute.day11.utils.DbUtils;
 import org.sql2o.Connection;
@@ -29,6 +30,14 @@ public class ProductModel {
                         .executeUpdate();
             }
         }
+    public static List<Product> findByCatId(int catId){
+        final String query = "select * from products where CatID = :CatID";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(query)
+                    .addParameter("CatID",catId)
+                    .executeAndFetch(Product.class);
+        }
+    }
         public static Product findByID(int id){
             final String query = "select * from products where ProID=:ProID";
             try (Connection con = DbUtils.getConnection()) {
